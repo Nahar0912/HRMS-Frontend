@@ -1,0 +1,66 @@
+<nav class="bg-blue-600 text-white font-bold shadow-lg">
+  <div class="container mx-auto flex items-center justify-between py-3 px-4 md:px-0">
+    <!-- Logo -->
+    <div class="font-bold text-2xl tracking-wide hover:text-blue-200 transition cursor-pointer">
+      HRMS
+    </div>
+
+    <!-- Centered Menu -->
+    <ul class="hidden md:flex space-x-6 flex-1 justify-center">
+      <li>
+        <a 
+          routerLink="/employees" 
+          routerLinkActive="bg-blue-800 shadow-md" 
+          class="px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+          Employees
+        </a>
+      </li>
+      <li>
+        <a 
+          routerLink="/salaries" 
+          routerLinkActive="bg-blue-800 shadow-md" 
+          class="px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+          Salary
+        </a>
+      </li>
+      <li>
+        <a 
+          routerLink="/payrolls" 
+          routerLinkActive="bg-blue-800 shadow-md" 
+          class="px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+          Payroll
+        </a>
+      </li>
+    </ul>
+
+    <!-- Auth Links -->
+    <div class="hidden md:flex space-x-4">
+      <ng-container *ngIf="!isLoggedIn()">
+        <a routerLink="/login" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-700 transition duration-200">Login</a>
+        <a routerLink="/register" class="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-700 transition duration-200">Register</a>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn()">
+        <button (click)="logout()" class="px-4 py-2 rounded-lg bg-blue-800 hover:bg-blue-500 transition duration-200">Logout</button>
+      </ng-container>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="md:hidden text-2xl ml-2 hover:text-blue-200 transition" (click)="toggleMobileMenu()">☰</button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="mobileOpen()" class="md:hidden bg-blue-700 p-4 space-y-3 flex flex-col items-center shadow-inner rounded-b-lg">
+    <a routerLink="/employees" routerLinkActive="bg-blue-800 shadow-md" (click)="toggleMobileMenu()" class="w-full text-center px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">Employees</a>
+    <a routerLink="/salaries" routerLinkActive="bg-blue-800 shadow-md" (click)="toggleMobileMenu()" class="w-full text-center px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">Salary</a>
+    <a routerLink="/payrolls" routerLinkActive="bg-blue-800 shadow-md" (click)="toggleMobileMenu()" class="w-full text-center px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">Payroll</a>
+
+    <!-- Auth Links -->
+    <ng-container *ngIf="!isLoggedIn()">
+      <a routerLink="/login" (click)="toggleMobileMenu()" class="w-full text-center px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition duration-200">Login</a>
+      <a routerLink="/register" (click)="toggleMobileMenu()" class="w-full text-center px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition duration-200">Register</a>
+    </ng-container>
+    <ng-container *ngIf="isLoggedIn()">
+      <button (click)="logout(); toggleMobileMenu()" class="w-full text-center px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 transition duration-200">Logout</button>
+    </ng-container>
+  </div>
+</nav>

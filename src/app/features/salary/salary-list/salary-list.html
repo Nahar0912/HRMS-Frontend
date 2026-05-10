@@ -1,0 +1,90 @@
+<div class="p-6 max-w-7xl mx-auto bg-white shadow-lg rounded-lg">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+    <h2 class="text-2xl font-bold text-gray-800">Salary List</h2>
+    <a routerLink="/salary/add"
+       class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow transition">
+      Add Salary
+    </a>
+  </div>
+
+  <!-- Search -->
+  <div class="mb-4">
+    <input placeholder="Search..." 
+           class="w-full md:w-1/3 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+           (input)="applyFilter($event)">
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table mat-table [dataSource]="dataSource" matSort class="min-w-full divide-y divide-gray-200">
+
+      <!-- Employee Name Column -->
+      <ng-container matColumnDef="employeeId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left text-gray-700 font-semibold">
+          Employee Id
+        </th>
+        <td mat-cell *matCellDef="let s" class="px-4 py-2">{{ s.employeeId }}</td>
+      </ng-container>
+
+      <!-- Basic Salary Column -->
+      <ng-container matColumnDef="basicSalary">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left text-gray-700 font-semibold">
+          Basic
+        </th>
+        <td mat-cell *matCellDef="let s" class="px-4 py-2">{{ s.basicSalary }}</td>
+      </ng-container>
+
+      <!-- Bonus Column -->
+      <ng-container matColumnDef="bonus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left text-gray-700 font-semibold">
+          Bonus
+        </th>
+        <td mat-cell *matCellDef="let s" class="px-4 py-2">{{ s.bonus }}</td>
+      </ng-container>
+
+      <!-- Deduction Column -->
+      <ng-container matColumnDef="deduction">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left text-gray-700 font-semibold">
+          Deduction
+        </th>
+        <td mat-cell *matCellDef="let s" class="px-4 py-2">{{ s.deduction }}</td>
+      </ng-container>
+
+      <!-- Effective From Column -->
+      <ng-container matColumnDef="effectiveFrom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left text-gray-700 font-semibold">
+          Effective From
+        </th>
+        <td mat-cell *matCellDef="let s" class="px-4 py-2">
+          {{ s.effectiveFrom | date:'yyyy-MM-dd' }}
+        </td>
+      </ng-container>
+
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left text-gray-700 font-semibold">Actions</th>
+        <td mat-cell *matCellDef="let s" class="px-4 py-2 space-x-2">
+          <button [routerLink]="['/salary/edit', s.id]" 
+                  class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded shadow transition font-medium">
+            Edit
+          </button>
+          <button (click)="delete(s.id!)" 
+                  class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow transition font-medium">
+            Delete
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header & Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-100"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-50 transition"></tr>
+    </table>
+  </div>
+
+  <!-- Paginator -->
+  <div class="mt-4">
+    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

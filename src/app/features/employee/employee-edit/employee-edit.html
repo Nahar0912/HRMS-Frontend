@@ -1,0 +1,72 @@
+<div class="p-6 max-w-lg mx-auto bg-white shadow-lg rounded-lg border border-gray-200">
+  <h2 class="text-2xl font-semibold mb-6 text-gray-800">Edit Employee</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+
+    <!-- Name -->
+    <div>
+      <label class="block text-gray-700 mb-1">Name</label>
+      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Enter name" formControlName="name">
+      <p *ngIf="hasError('name')" class="text-red-500 text-sm mt-1">Name is required</p>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label class="block text-gray-700 mb-1">Email</label>
+      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Enter email" formControlName="email">
+      <p *ngIf="hasError('email')" class="text-red-500 text-sm mt-1">Valid email is required</p>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <label class="block text-gray-700 mb-1">Contact</label>
+      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Enter contact" formControlName="contact">
+      <p *ngIf="hasError('contact')" class="text-red-500 text-sm mt-1">Contact is required</p>
+    </div>
+
+    <!-- Position -->
+    <div>
+      <label class="block text-gray-700 mb-1">Position</label>
+      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Enter position" formControlName="position">
+      <p *ngIf="hasError('position')" class="text-red-500 text-sm mt-1">Position is required</p>
+    </div>
+
+    <!-- Department -->
+    <div>
+      <label class="block text-gray-700 mb-1">Department</label>
+      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Enter department" formControlName="department">
+      <p *ngIf="hasError('department')" class="text-red-500 text-sm mt-1">Department is required</p>
+    </div>
+
+    <!-- Account Number -->
+    <div>
+      <label class="block text-gray-700 mb-1">Account Number</label>
+      <input class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+             placeholder="Enter account number" formControlName="accountNumber">
+      <p *ngIf="hasError('accountNumber')" class="text-red-500 text-sm mt-1">Account number is required</p>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label class="block text-gray-700 mb-1">Employment Status</label>
+      <select class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              formControlName="employmentStatus">
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-4">
+      <button type="submit"
+              class="w-full bg-green-600 text-white py-2 px-4 rounded-md font-medium hover:bg-green-700 transition">
+        Update Employee
+      </button>
+    </div>
+  </form>
+</div>

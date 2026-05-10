@@ -1,0 +1,90 @@
+<div class="p-6 max-w-7xl mx-auto bg-white shadow-lg rounded-lg">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+    <h2 class="text-2xl font-bold text-gray-800">Payrolls</h2>
+    <form [formGroup]="form" (ngSubmit)="generatePayrolls()" class="flex gap-2">
+      <input type="month" formControlName="month" 
+             class="border rounded px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+             required />
+      <button type="submit" 
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
+        Generate
+      </button>
+    </form>
+  </div>
+
+  <!-- Search -->
+  <div class="mb-4">
+    <input placeholder="Search payrolls..." 
+           (input)="applyFilter($event)"
+           class="w-full md:w-1/3 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table mat-table [dataSource]="dataSource" matSort class="min-w-full divide-y divide-gray-200">
+
+      <!-- Employee ID -->
+      <ng-container matColumnDef="employeeId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 font-semibold text-gray-700">Employee ID</th>
+        <td mat-cell *matCellDef="let p" class="px-4 py-2">{{ p.employeeId }}</td>
+      </ng-container>
+
+      <!-- Total Salary -->
+      <ng-container matColumnDef="totalSalary">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 font-semibold text-gray-700">Total Salary</th>
+        <td mat-cell *matCellDef="let p" class="px-4 py-2">{{ p.totalSalary | currency }}</td>
+      </ng-container>
+
+      <!-- Tax -->
+      <ng-container matColumnDef="tax">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 font-semibold text-gray-700">Tax</th>
+        <td mat-cell *matCellDef="let p" class="px-4 py-2">{{ p.tax | currency }}</td>
+      </ng-container>
+
+      <!-- Net Salary -->
+      <ng-container matColumnDef="netSalary">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 font-semibold text-gray-700">Net Salary</th>
+        <td mat-cell *matCellDef="let p" class="px-4 py-2">{{ p.netSalary | currency }}</td>
+      </ng-container>
+
+      <!-- Payroll Month -->
+      <ng-container matColumnDef="payrollMonth">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 font-semibold text-gray-700">Month</th>
+        <td mat-cell *matCellDef="let p" class="px-4 py-2">{{ p.payrollMonth | date:'MMM yyyy' }}</td>
+      </ng-container>
+
+      <!-- Created At -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 font-semibold text-gray-700">Created At</th>
+        <td mat-cell *matCellDef="let p" class="px-4 py-2">{{ p.createdAt | date:'short' }}</td>
+      </ng-container>
+
+      <!-- Updated At -->
+      <ng-container matColumnDef="updatedAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 font-semibold text-gray-700">Updated At</th>
+        <td mat-cell *matCellDef="let p" class="px-4 py-2">{{ p.updatedAt | date:'short' }}</td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="px-4 py-2 font-semibold text-gray-700">Actions</th>
+        <td mat-cell *matCellDef="let p" class="px-4 py-2">
+          <button (click)="deletePayroll(p.id)" 
+                  class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow transition font-medium">
+            Delete
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header & Row -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-100"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-50 transition"></tr>
+
+    </table>
+  </div>
+
+  <!-- Paginator -->
+  <div class="mt-4">
+    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
