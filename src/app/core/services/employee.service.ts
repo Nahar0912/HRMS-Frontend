@@ -37,7 +37,7 @@ export interface EmployeeUpdateDTO {
   providedIn: 'root'
 })
 export class EmployeeService {
-  private baseUrl = 'http://localhost:5066/api/Employee';
+  private baseUrl = 'http://localhost:5066/Employee';
 
   constructor(private http: HttpClient) {}
 

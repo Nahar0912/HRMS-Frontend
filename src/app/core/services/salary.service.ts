@@ -30,7 +30,7 @@ export interface SalaryUpdateDTO {
   providedIn: 'root'
 })
 export class SalaryService {
-  private baseUrl = 'http://localhost:5066/api/Salary';
+  private baseUrl = 'http://localhost:5066/Salary';
 
   constructor(private http: HttpClient) {}
 

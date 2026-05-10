@@ -20,7 +20,7 @@ export interface RegisterDTO {
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:5066/api/Auth';
+  private baseUrl = 'http://localhost:5066/Auth';
 
   private tokenSignal = signal<string | null>(localStorage.getItem('token'));
 
@@ -28,12 +28,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // ---------------- REGISTER ----------------
+  //Register
   register(data: RegisterDTO): Observable<any> {
     return this.http.post(`${this.baseUrl}/register`, data);
   }
 
-  // ---------------- LOGIN ----------------
+  //Login
   login(data: LoginDTO): Observable<any> {
     return this.http.post<{ token: string }>(`${this.baseUrl}/login`, data).pipe(
       tap(res => {
@@ -45,13 +45,13 @@ export class AuthService {
     );
   }
 
-  // ---------------- LOGOUT ----------------
+  //Logout
   logout() {
     localStorage.removeItem('token');
     this.tokenSignal.set(null); 
   }
 
-  // ---------------- GET TOKEN ----------------
+  //Get Token
   getToken(): string | null {
     return this.tokenSignal();
   }

@@ -18,7 +18,7 @@ export interface PayrollDTO {
   providedIn: 'root'
 })
 export class PayrollService {
-  private baseUrl = 'http://localhost:5066/api/payroll';
+  private baseUrl = 'http://localhost:5066/payroll';
 
   constructor(private http: HttpClient) {}
 
