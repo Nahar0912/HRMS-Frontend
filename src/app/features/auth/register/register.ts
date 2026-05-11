@@ -16,38 +16,33 @@ export class Register {
   private auth = inject(AuthService);
   private router = inject(Router);
 
+  errorMessage = '';
+
   form = this.fb.group({
     username: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    phone: [''],
+    email: ['',[Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/),
+      Validators.minLength(6)]
+    ],
+    phone: ['', [Validators.pattern(/^[0-9]{11}$/)]],
     address: ['']
   });
 
-  errorMessage = '';
-
   submit() {
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const raw = this.form.getRawValue();
-
-    // Make sure null values become empty strings
-    const payload: RegisterDTO = {
-      username: raw.username || '',
-      email: raw.email || '',
-      password: raw.password || '',
-      phone: raw.phone || undefined,
-      address: raw.address || undefined
-    };
+    const payload: RegisterDTO = this.form.getRawValue() as RegisterDTO;
 
     this.auth.register(payload).subscribe({
       next: () => {
         this.errorMessage = '';
-        this.router.navigate(['/login']); // redirect to login after register
+        this.router.navigate(['/login']);
       },
+
       error: err => {
         console.error(err);
         this.errorMessage = err.error || 'Registration failed';
@@ -56,7 +51,13 @@ export class Register {
   }
 
   hasError(controlName: string): boolean {
+
     const control = this.form.get(controlName);
-    return !!(control && control.invalid && (control.dirty || control.touched));
+
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched)
+    );
   }
 }

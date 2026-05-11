@@ -16,39 +16,43 @@ export class Login {
   private auth = inject(AuthService);
   private router = inject(Router);
 
+  errorMessage = '';
+
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
 
-  errorMessage = '';
-
   submit() {
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const raw = this.form.getRawValue();
-
-    const payload: LoginDTO = {
-      email: raw.email || '',
-      password: raw.password || ''
-    };
+    const payload = this.form.getRawValue() as LoginDTO;
 
     this.auth.login(payload).subscribe({
       next: () => {
         this.errorMessage = '';
         this.router.navigate(['/employees']);
       },
+
       error: err => {
         console.error(err);
         this.errorMessage = err.error || 'Login failed';
       }
     });
   }
+
   hasError(controlName: string): boolean {
+
     const control = this.form.get(controlName);
-    return !!(control && control.invalid && (control.dirty || control.touched));
+
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched)
+    );
   }
 }

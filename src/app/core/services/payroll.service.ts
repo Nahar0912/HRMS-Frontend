@@ -9,7 +9,7 @@ export interface PayrollDTO {
   totalSalary: number;
   tax: number;
   netSalary: number;
-  payrollMonth: string; // ISO string
+  payrollMonth: string; 
   createdAt: string;
   updatedAt: string;
 }
