@@ -27,5 +27,4 @@ export const routes: Routes = [
   { path: 'salary/edit/:id', component: SalaryEdit, canActivate: [authGuard] },
 
   { path: 'payrolls', component: PayrollGenerate, canActivate: [authGuard] },
-  
 ];

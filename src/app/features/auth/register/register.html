@@ -1,48 +1,112 @@
-<div class="max-w-md mx-auto mt-20 bg-white p-6 rounded shadow">
-  <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
+<div class="h-full flex items-center justify-center bg-gradient-to-br from-green-100 via-sky-50 to-blue-200 px-4 py-6">
 
-  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+  <div class="w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-gray-100">
 
-    <!-- Username -->
-    <div>
-      <input formControlName="username" placeholder="Username" class="w-full border px-4 py-2 rounded">
-      <p *ngIf="hasError('username')" class="text-red-500 text-sm mt-1">Username is required</p>
-    </div>
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">
+      Create Account
+    </h2>
 
-    <!-- Email -->
-    <div>
-      <input type="email" formControlName="email" placeholder="Email" class="w-full border px-4 py-2 rounded">
-      <p *ngIf="hasError('email')" class="text-red-500 text-sm mt-1">Valid email is required</p>
-    </div>
+    <p class="text-center text-gray-500 text-sm mb-6">
+      Sign up to get started
+    </p>
 
-    <!-- Password -->
-    <div>
-      <input type="password" formControlName="password" placeholder="Password" class="w-full border px-4 py-2 rounded">
-      <p *ngIf="hasError('password')" class="text-red-500 text-sm mt-1">Password is required (min 6 characters)</p>
-    </div>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
 
-    <!-- Phone -->
-    <div>
-      <input formControlName="phone" placeholder="Phone" class="w-full border px-4 py-2 rounded">
-      <p *ngIf="hasError('phone')" class="text-red-500 text-sm mt-1">Enter a valid phone number</p>
-    </div>
+      <!-- Username -->
+      <div>
+        <input
+          formControlName="username"
+          placeholder="Username"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50
+                 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100
+                 outline-none transition"
+        />
 
-    <!-- Address -->
-    <div>
-      <input formControlName="address" placeholder="Address" class="w-full border px-4 py-2 rounded">
-      <p *ngIf="hasError('address')" class="text-red-500 text-sm mt-1">Address cannot exceed 200 characters</p>
-    </div>
+        <p *ngIf="hasError('username')" class="text-red-500 text-xs mt-1">
+          Username is required
+        </p>
+      </div>
 
-    <!-- Register Button -->
-    <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
-      Register
-    </button>
+      <!-- Email -->
+      <div>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Email address"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50
+                 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100
+                 outline-none transition"
+        />
 
-  </form>
+        <p *ngIf="hasError('email')" class="text-red-500 text-xs mt-1">
+          Valid email is required
+        </p>
+      </div>
 
-  <!-- Link to Login -->
-  <p class="text-center mt-4 text-sm text-gray-600">
-    Already have an account? 
-    <a routerLink="/login" class="text-blue-600 hover:underline">Login here</a>
-  </p>
+      <!-- Password -->
+      <div>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50
+                 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100
+                 outline-none transition"
+        />
+
+        <p *ngIf="hasError('password')" class="text-red-500 text-xs mt-1">
+          Password must be at least 6 characters
+        </p>
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <input
+          formControlName="phone"
+          placeholder="Phone number"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50
+                 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100
+                 outline-none transition"
+        />
+
+        <p *ngIf="hasError('phone')" class="text-red-500 text-xs mt-1">
+          Enter a valid phone number
+        </p>
+      </div>
+
+      <!-- Address -->
+      <div>
+        <input
+          formControlName="address"
+          placeholder="Address"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50
+                 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100
+                 outline-none transition"
+        />
+
+        <p *ngIf="hasError('address')" class="text-red-500 text-xs mt-1">
+          Address cannot exceed 200 characters
+        </p>
+      </div>
+
+      <!-- Button -->
+      <button
+        type="submit"
+        class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl
+               hover:from-green-700 hover:to-emerald-700 transition font-medium shadow-md"
+      >
+        Create Account
+      </button>
+
+    </form>
+
+    <!-- Login link -->
+    <p class="text-center mt-6 text-sm text-gray-500">
+      Already have an account?
+      <a routerLink="/login" class="text-green-600 font-medium hover:underline">
+        Login here
+      </a>
+    </p>
+
+  </div>
 </div>

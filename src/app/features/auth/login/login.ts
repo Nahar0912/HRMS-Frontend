@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 import { AuthService, LoginDTO } from '../../../core/services/auth.service';
 
 @Component({
@@ -15,8 +17,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
-
-  errorMessage = '';
+  private toastr = inject(ToastrService);
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -27,21 +28,32 @@ export class Login {
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.toastr.warning('Please fill all required fields');
       return;
     }
 
     const payload = this.form.getRawValue() as LoginDTO;
 
     this.auth.login(payload).subscribe({
-      next: () => {
-        this.errorMessage = '';
+
+      next: (res: any) => {
+
+        this.toastr.success('Login successful!');
+
+        if (res?.token) {
+          localStorage.setItem('token', res.token);
+        }
+
         this.router.navigate(['/employees']);
       },
 
       error: err => {
         console.error(err);
-        this.errorMessage = err.error || 'Login failed';
+        this.toastr.error(
+          err?.error?.message || 'Login failed'
+        );
       }
+
     });
   }
 

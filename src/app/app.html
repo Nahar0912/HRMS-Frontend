@@ -1,9 +1,8 @@
-<div class="min-h-screen bg-gray-100">
+<div class="h-screen flex flex-col bg-gray-100">
   <app-navbar></app-navbar>
 
-  <div class="flex">
-    <main class="flex-1 p-6">
-      <router-outlet />
-    </main>
-  </div>
+  <main class="flex-1 overflow-auto">
+    <router-outlet></router-outlet>
+  </main>
+
 </div>
