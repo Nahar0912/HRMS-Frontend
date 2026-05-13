@@ -8,25 +8,18 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-salary-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule
-  ],
+  imports: [ CommonModule, RouterModule, MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule,MatFormFieldModule, MatButtonModule ],
   templateUrl: './salary-list.html'
 })
 export class SalaryList implements OnInit, AfterViewInit {
 
   private service = inject(SalaryService);
+    private toastr = inject(ToastrService);
 
   displayedColumns: string[] = ['employeeId', 'basicSalary', 'bonus', 'deduction', 'effectiveFrom', 'actions'];
   dataSource = new MatTableDataSource<SalaryDTO>([]);
@@ -42,14 +35,30 @@ export class SalaryList implements OnInit, AfterViewInit {
   }
 
   load() {
-    this.service.getAll().subscribe(res => {
-      this.dataSource.data = res;
+    this.service.getAll().subscribe({
+      next: res => {
+        this.dataSource.data = res;
+      },
+
+      error: () => {
+        this.toastr.error('Failed to load salaries');
+      }
     });
   }
 
   delete(id: number) {
     if (!confirm('Delete salary record?')) return;
-    this.service.delete(id).subscribe(() => this.load());
+
+    this.service.delete(id).subscribe({
+      next: () => {
+        this.toastr.success('Salary record deleted successfully');
+        this.load();
+      },
+
+      error: () => {
+        this.toastr.error('Failed to delete salary record');
+      }
+    });
   }
 
   applyFilter(event: any) {

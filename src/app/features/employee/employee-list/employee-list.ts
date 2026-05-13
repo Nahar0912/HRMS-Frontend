@@ -13,8 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule, MatFormFieldModule,
-    MatButtonModule],
+  imports: [CommonModule, RouterModule, MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule,              MatFormFieldModule, MatButtonModule],
   templateUrl: './employee-list.html'
 })
 
@@ -36,16 +35,10 @@ export class EmployeeList implements OnInit, AfterViewInit {
   ];
 
   dataSource = new MatTableDataSource<EmployeeDTO>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-
-  @ViewChild(MatSort)
-  sort!: MatSort;
-
-  ngOnInit() {
-    this.load();
-  }
+  ngOnInit() { this.load(); }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

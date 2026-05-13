@@ -12,40 +12,45 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PayrollService, type PayrollDTO } from '../../core/services/payroll.service';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-payroll-generate',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule
-  ],
+  imports: [ CommonModule, ReactiveFormsModule, MatTableModule, MatPaginatorModule, MatSortModule,MatButtonModule,MatFormFieldModule, MatInputModule ],
   templateUrl: './payroll-generate.html'
 })
-export class PayrollGenerate implements OnInit, AfterViewInit {
+export class PayrollGenerate
+  implements OnInit, AfterViewInit {
+
   private payrollService = inject(PayrollService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
+  private toastr = inject(ToastrService);
 
   form: FormGroup;
+
   displayedColumns: string[] = [
-    'employeeId', 'totalSalary', 'tax', 'netSalary', 
-    'payrollMonth', 'createdAt', 'updatedAt', 'actions'
+    'employeeId',
+    'totalSalary',
+    'tax',
+    'netSalary',
+    'payrollMonth',
+    'createdAt',
+    'updatedAt',
+    'actions'
   ];
+
   dataSource = new MatTableDataSource<PayrollDTO>([]);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
+  @ViewChild(MatSort)
+  sort!: MatSort;
 
   constructor() {
-    this.form = this.fb.group({
-      month: ['']
-    });
+    this.form = this.fb.group({ month: [''] });
   }
 
   ngOnInit() {
@@ -59,52 +64,70 @@ export class PayrollGenerate implements OnInit, AfterViewInit {
   }
 
   loadPayrolls() {
+
     this.payrollService.getAll().subscribe({
       next: (res) => {
         this.dataSource.data = res;
         this.setupFilter();
         this.cdr.detectChanges();
       },
-      error: (err) => console.error(err)
+
+      error: () => {
+        this.toastr.error('Failed to load payrolls');
+      }
+
     });
   }
 
   generatePayrolls() {
     const monthInput = this.form.value.month;
+
     if (!monthInput) {
-      alert('Please select a month');
+      this.toastr.warning('Please select a month');
       return;
     }
 
-    this.payrollService.generatePayrolls(monthInput).subscribe({
-      next: (res: any) => {
-        const payrolls = res.data;
-        if (!payrolls || payrolls.length === 0) {
-          alert('No payrolls generated.');
-          return;
+    this.payrollService
+      .generatePayrolls(monthInput)
+      .subscribe({
+
+        next: (res: any) => {
+          const payrolls = res.data;
+
+          if (!payrolls || payrolls.length === 0) {
+            this.toastr.info('No payrolls generated');
+            return;
+          }
+          this.toastr.success(`${payrolls.length} payroll(s) generated successfully`);
+          this.dataSource.data = [...this.dataSource.data, ...payrolls];
+          this.cdr.detectChanges();
+        },
+
+        error: () => {
+          this.toastr.error('Error generating payrolls');
         }
 
-        alert(`${payrolls.length} payroll(s) generated!`);
-        this.dataSource.data = [...this.dataSource.data, ...payrolls];
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Error generating payrolls.');
-      }
-    });
+      });
   }
 
   deletePayroll(id: number) {
-    if (!confirm('Delete this payroll?')) return;
+    if (
+      !confirm('Delete this payroll?')
+    ) {
+      return;
+    }
 
-    this.payrollService.delete(id).subscribe({
-      next: () => {
-        this.dataSource.data = this.dataSource.data.filter(p => p.id !== id);
-        alert('Deleted successfully!');
-      },
-      error: (err) => console.error(err)
-    });
+    this.payrollService.delete(id)
+      .subscribe({
+        next: () => {
+          this.dataSource.data = this.dataSource.data.filter(p => p.id !== id);
+          this.toastr.success('Payroll deleted successfully');
+        },
+
+        error: () => {
+          this.toastr.error('Failed to delete payroll');
+        }
+      });
   }
 
   applyFilter(event: any) {
@@ -113,14 +136,19 @@ export class PayrollGenerate implements OnInit, AfterViewInit {
   }
 
   setupFilter() {
-    this.dataSource.filterPredicate = (data: PayrollDTO, filter: string) => {
-      const dataStr = `
-        ${data.employeeId} ${data.totalSalary} ${data.tax} ${data.netSalary} 
-        ${new Date(data.payrollMonth).toLocaleDateString()} 
-        ${new Date(data.createdAt).toLocaleDateString()} 
-        ${new Date(data.updatedAt).toLocaleDateString()}
-      `.toLowerCase();
-      return dataStr.includes(filter);
-    };
+    this.dataSource.filterPredicate =
+      ( data: PayrollDTO, filter: string) => {
+        const dataStr = `
+          ${data.employeeId}
+          ${data.totalSalary}
+          ${data.tax}
+          ${data.netSalary}
+          ${new Date(data.payrollMonth).toLocaleDateString()}
+          ${new Date(data.createdAt).toLocaleDateString()}
+          ${new Date(data.updatedAt).toLocaleDateString()}
+        `.toLowerCase();
+
+        return dataStr.includes(filter);
+      };
   }
 }

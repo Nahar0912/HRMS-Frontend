@@ -25,7 +25,6 @@ export class Login {
   });
 
   submit() {
-
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.toastr.warning('Please fill all required fields');
@@ -37,13 +36,10 @@ export class Login {
     this.auth.login(payload).subscribe({
 
       next: (res: any) => {
-
         this.toastr.success('Login successful!');
-
         if (res?.token) {
           localStorage.setItem('token', res.token);
         }
-
         this.router.navigate(['/employees']);
       },
 
@@ -53,18 +49,12 @@ export class Login {
           err?.error?.message || 'Login failed'
         );
       }
-
     });
   }
 
   hasError(controlName: string): boolean {
-
     const control = this.form.get(controlName);
-
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched)
+    return !!( control && control.invalid && (control.dirty || control.touched)
     );
   }
 }

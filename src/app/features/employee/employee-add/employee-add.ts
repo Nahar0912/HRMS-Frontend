@@ -80,7 +80,6 @@ export class EmployeeAdd implements OnInit {
         const action = this.id ? this.service.update(this.id, payload) : this.service.create(payload);
 
         action.subscribe({
-
           next: () => {
             this.toastr.success('Employee saved successfully!');
             this.router.navigate(['/employees']);
