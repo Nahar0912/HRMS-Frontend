@@ -45,9 +45,7 @@ export class Login {
 
       error: err => {
         console.error(err);
-        this.toastr.error(
-          err?.error?.message || 'Login failed'
-        );
+        this.toastr.error(err?.error?.message || 'Login failed');
       }
     });
   }
