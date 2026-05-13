@@ -2,17 +2,14 @@
   <!-- Header -->
   <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
     <h2 class="text-2xl font-bold text-gray-800">Salary List</h2>
-    <a routerLink="/salary/add"
-       class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow transition">
+    <a routerLink="/salary/add" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow transition">
       Add Salary
     </a>
   </div>
 
   <!-- Search -->
   <div class="mb-4">
-    <input placeholder="Search..." 
-           class="w-full md:w-1/3 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-           (input)="applyFilter($event)">
+    <input placeholder="Search..." class="w-full md:w-1/3 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400" (input)="applyFilter($event)">
   </div>
 
   <!-- Table -->
@@ -56,9 +53,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2 text-left text-gray-700 font-semibold">
           Effective From
         </th>
-        <td mat-cell *matCellDef="let s" class="px-4 py-2">
-          {{ s.effectiveFrom | date:'yyyy-MM-dd' }}
-        </td>
+        <td mat-cell *matCellDef="let s" class="px-4 py-2">{{ s.effectiveFrom | date:'yyyy-MM-dd' }}</td>
       </ng-container>
 
 
@@ -66,12 +61,10 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left text-gray-700 font-semibold">Actions</th>
         <td mat-cell *matCellDef="let s" class="px-4 py-2 space-x-2">
-          <button [routerLink]="['/salary/edit', s.id]" 
-                  class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded shadow transition font-medium">
+          <button [routerLink]="['/salary/edit', s.id]" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded shadow transition font-medium">
             Edit
           </button>
-          <button (click)="delete(s.id!)" 
-                  class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow transition font-medium">
+          <button (click)="delete(s.id!)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow transition font-medium">
             Delete
           </button>
         </td>
