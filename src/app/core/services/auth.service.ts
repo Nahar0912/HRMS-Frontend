@@ -22,37 +22,44 @@ export class AuthService {
 
   private baseUrl = 'http://localhost:5066/Auth';
 
-  private tokenSignal = signal<string | null>(localStorage.getItem('token'));
+  private tokenSignal = signal<string | null>(
+    localStorage.getItem('token')
+  );
 
   isLoggedIn = computed(() => !!this.tokenSignal());
 
   constructor(private http: HttpClient) {}
 
-  //Register
+  // Register
   register(data: RegisterDTO): Observable<any> {
     return this.http.post(`${this.baseUrl}/register`, data);
   }
 
-  //Login
-  login(data: LoginDTO): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/login`, data).pipe(
+  // Login
+  login(data: LoginDTO): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.baseUrl}/login`,data).pipe(
       tap(res => {
         if (res.token) {
           localStorage.setItem('token', res.token);
-          this.tokenSignal.set(res.token); 
+          this.tokenSignal.set(res.token);
         }
       })
     );
   }
 
-  //Logout
-  logout() {
+  // Logout
+  logout(): void {
     localStorage.removeItem('token');
-    this.tokenSignal.set(null); 
+    this.tokenSignal.set(null);
   }
 
-  //Get Token
+  // Get Token
   getToken(): string | null {
     return this.tokenSignal();
+  }
+
+  // Check Authentication
+  isAuthenticated(): boolean {
+    return !!this.tokenSignal();
   }
 }

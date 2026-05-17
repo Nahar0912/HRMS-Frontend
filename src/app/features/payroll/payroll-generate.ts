@@ -112,8 +112,6 @@ export class PayrollGenerate implements OnInit, AfterViewInit {
   }
 
   deletePayroll(id: number) {
-    if (!confirm('Delete this payroll?')) return;
-
     this.payrollService.delete(id).subscribe({
       next: () => {
         this.dataSource.data = this.dataSource.data.filter( p => p.id !== id );
@@ -133,23 +131,21 @@ export class PayrollGenerate implements OnInit, AfterViewInit {
   }
 
   setupFilter() {
-    this.dataSource.filterPredicate = (
-      data: PayrollDTO,
-      filter: string
-    ) => {
-      const dataStr = `
-        ${data.employeeId}
-        ${data.totalSalary}
-        ${data.tax}
-        ${data.netSalary}
-        ${new Date(data.payrollMonth).toLocaleDateString('en-US', {month: 'short', year: 'numeric'})}.toLowerCase();
-        ${new Date(data.createdAt).toLocaleDateString()}
-        ${new Date(data.updatedAt).toLocaleDateString()}
-      `.toLowerCase();
+  this.dataSource.filterPredicate = (data: PayrollDTO, filter: string) => {
 
-      return dataStr.includes(filter);
-    };
-  }
+    const dataStr = `
+      ${data.employeeId}
+      ${data.totalSalary}
+      ${data.tax}
+      ${data.netSalary}
+      ${new Date(data.payrollMonth).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toLowerCase()}
+      ${new Date(data.createdAt).toLocaleDateString()}
+      ${new Date(data.updatedAt).toLocaleDateString()}
+    `.toLowerCase();
+
+    return dataStr.includes(filter);
+  };
+}
 
   calculateSummary() {
     const data = this.dataSource.data;
