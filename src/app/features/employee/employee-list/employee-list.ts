@@ -58,8 +58,6 @@ export class EmployeeList implements OnInit, AfterViewInit {
   }
 
   delete(id: number) {
-    if (!confirm('Delete employee?')) return;
-
     this.service.delete(id).subscribe({
       next: () => {
         this.toastr.success('Employee deleted successfully');

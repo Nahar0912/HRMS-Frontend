@@ -47,8 +47,6 @@ export class SalaryList implements OnInit, AfterViewInit {
   }
 
   delete(id: number) {
-    if (!confirm('Delete salary record?')) return;
-
     this.service.delete(id).subscribe({
       next: () => {
         this.toastr.success('Salary record deleted successfully');
